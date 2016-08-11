@@ -1,0 +1,7 @@
+DEPENDENCIES
+  doi_ssl_filtering
+    path: .
+    metadata: true
+
+GRAPH
+  doi_ssl_filtering (0.0.1)

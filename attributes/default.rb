@@ -1,7 +1,3 @@
-# List the plugins you expect to see in the Jenkins master
-# here. Include the version number if you want to lock
-# the plugin to a certain version
-
 # Set this to a remote web location or a file on the file system
 # http://...
 # or

@@ -1,0 +1,10 @@
+{
+  "id": "java",
+  "keystore_password": {
+    "encrypted_data": "AeQLtFuv+9/deCXqpd61cKHvn2Bj43lgVoKxTcgRuPE=\n",
+    "hmac": "pqZPiM8r5NA6lqOERCRMht0YQ/781Zh8RhviZBD2lvs=\n",
+    "iv": "J7uBE48eQhDD0zfuutk0vA==\n",
+    "version": 2,
+    "cipher": "aes-256-cbc"
+  }
+}

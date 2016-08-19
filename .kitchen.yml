@@ -23,6 +23,29 @@ suites:
   - name: default
     run_list:
       - recipe[doi_ssl_filtering::default]
+
+  - name: java-oracle
+    run_list:
+      - recipe[doi_ssl_filtering::default]
+      - recipe[java]
+      - recipe[doi_ssl_filtering::java]
+    data_bags_path: './test/integration/default/data_bags/'
+    encrypted_data_bag_secret_key_path: './test/integration/default/encrypted_data_bag_secret'
     attributes: {
+      "java" : {
+          "install_flavor" : "oracle",
+          "jdk_version" : "8",
+          "oracle" : {
+               "accept_oracle_download_terms" : true
+          }
+      }
     }
+
+  - name: java-openjdk
+    run_list:
+      - recipe[doi_ssl_filtering::default]
+      - recipe[java]
+      - recipe[doi_ssl_filtering::java]
+    data_bags_path: './test/integration/default/data_bags/'
+    encrypted_data_bag_secret_key_path: './test/integration/default/encrypted_data_bag_secret'
 

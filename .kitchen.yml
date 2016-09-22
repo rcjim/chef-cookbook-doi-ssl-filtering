@@ -18,9 +18,19 @@ platforms:
       box: bento/centos-6.7
       box_url: bento/centos-6.7
       provider: vmware_fusion
+  - name: windows-2012r2
 
 suites:
   - name: default
+    excludes:
+      - windows-2012r2
+    run_list:
+      - recipe[doi_ssl_filtering::default]
+
+#  NOTE: Once serverspec can autodetect the backend, this won't be needed
+  - name: windefault
+    includes:      
+      - windows-2012r2
     run_list:
       - recipe[doi_ssl_filtering::default]
 

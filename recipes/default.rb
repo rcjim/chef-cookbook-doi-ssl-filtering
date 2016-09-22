@@ -4,5 +4,9 @@
 #
 
 include_recipe "doi_ssl_filtering::certificate"
-include_recipe "doi_ssl_filtering::openssl"
+if node['platform'] != "windows"
+  include_recipe "doi_ssl_filtering::openssl"
+else
+  include_recipe "doi_ssl_filtering::windows"
+end
 include_recipe "doi_ssl_filtering::kitchen"

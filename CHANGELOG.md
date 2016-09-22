@@ -1,6 +1,10 @@
 DOI SSL Filtering
 =================
 
+v0.0.3
+------
+- [jmorris@usgs.gov] - Added support for windows
+
 v0.0.2
 ------
 

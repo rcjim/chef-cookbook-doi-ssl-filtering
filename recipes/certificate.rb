@@ -8,6 +8,9 @@ require 'uri'
 require_relative '../files/default/cert_helpers'
 
 node.run_state[:doi_ssl_cert_location] = "#{Chef::Config[:file_cache_path]}/doi.cer"
+if node['platform'] == "windows"
+  node.run_state[:doi_ssl_cert_location] = (node.run_state[:doi_ssl_cert_location]).gsub("\\", "/")
+end
 path = node['doi_ssl_filtering']['cert_location']
 retrieve_cert = cert_needs_update(path, node.run_state[:doi_ssl_cert_location])
 
@@ -21,9 +24,16 @@ if retrieve_cert == true
     # Attempt to grab the DOI cert remotely. If HTTPS,
     # this will probably require bypassing SSL verification
     # since we may be on the DOI network
-    execute 'Get remote DOI cert' do
-      command "curl -k -o #{node.run_state[:doi_ssl_cert_location]} '#{path}'"
-      not_if do ::File.exists?(node.run_state[:doi_ssl_cert_location]) end
+    if node['platform'] != "windows"
+      execute 'Get remote DOI cert via curl' do
+        command "curl -k -o #{node.run_state[:doi_ssl_cert_location]} '#{path}'"
+        not_if do ::File.exists?(node.run_state[:doi_ssl_cert_location]) end
+      end
+    else
+      powershell_script 'Get remote DOI cert via powershell' do
+        code "[System.Net.ServicePointManager]::ServerCertificateValidationCallback = {$true}; (New-Object System.Net.WebClient).DownloadFile('#{path}', '#{node.run_state[:doi_ssl_cert_location]}')"
+        not_if do ::File.exists?(node.run_state[:doi_ssl_cert_location]) end
+      end
     end
   elsif scheme == 'file'
     remote_file 'Get local DOI cert' do

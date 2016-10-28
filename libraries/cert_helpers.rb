@@ -1,3 +1,18 @@
+require 'uri'
+
+def get_cert_filemame(location)
+  # Gets the certificate's filename from the URI location
+  uri = URI.parse(location)
+  scheme = uri.scheme
+  if scheme == 'http' || scheme == 'https'
+    uri.path.split('/').last
+  elsif scheme == 'file'
+    File.basename(location)
+  else
+    raise 'Location is neither http, https or file'
+  end
+end
+
 def cert_needs_update(remote, local)
   # Check to make sure that we need to re-pull the file.
   # We re-pull the file if it doesn't exist or if it does

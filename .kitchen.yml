@@ -26,6 +26,7 @@ suites:
       - windows-2012r2
     run_list:
       - recipe[doi_ssl_filtering]
+      - recipe[doi_ssl_filtering::kitchen]
 
 #  NOTE: Once serverspec can autodetect the backend, this won't be needed
   - name: windefault

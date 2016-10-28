@@ -5,27 +5,38 @@
 # Updates the DOI certificate for guest VMs created
 # and tested via Chef's Test Kitchen utility
 
+require_relative '../libraries/cert_helpers'
+
 topdir = if node['platform'] == 'windows'
            'c:/opscode'
          else
            '/opt'
          end
 
-remote_file "#{topdir}/chef/embedded/ssl/doi_cert.pem" do
-  source "file://#{node.run_state[:doi_ssl_cert_location]}"
-  # The certificate is public but I don't want the logs to be
-  # filled with it
-  sensitive true
-  notifies :run, 'ruby_block[reload_client_config]', :immediately
-end
+cacert_file = File.join(topdir, 'chef', 'embedded', 'ssl', 'certs', 'cacert.pem')
 
-# The file also needs to be appended to /opt/chef/embedded/ssl/certs/cacert.pem
-ruby_block 'reload_client_config' do
-  block do
-    to_append = File.read(node.run_state[:doi_ssl_cert_location])
-    File.open("#{topdir}/chef/embedded/ssl/certs/cacert.pem", 'a') do |handle|
-      handle.puts "\n\nDOI ROOT CERT\n=============\n#{to_append}"
-    end
+node['doi_ssl_filtering']['cert_locations'].each do |loc|
+  filename = get_cert_filemame(loc)
+  original_file = File.join(Chef::Config[:file_cache_path], filename)
+  local_ssl_file = File.join(topdir, 'chef', 'embedded', 'ssl', filename)
+
+  remote_file 'Create Chef SSL Cert' do
+    path local_ssl_file
+    source "file://#{original_file}"
+    # The certificate is public but I don't want the logs to be
+    # filled with it
+    sensitive true
   end
-  action :nothing
+
+  # The file also needs to be appended to /opt/chef/embedded/ssl/certs/cacert.pem
+  ruby_block 'Reload client config' do
+    block do
+      to_append = File.read(original_file)
+      File.open(cacert_file, 'a') do |handle|
+        handle.puts "\n\nROOT CERT\n=============\n#{to_append}"
+      end
+    end
+    action :nothing
+    subscribes :create, 'remote_file[Create Chef SSL Cert]', :immediately
+  end
 end

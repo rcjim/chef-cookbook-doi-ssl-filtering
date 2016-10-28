@@ -7,14 +7,21 @@
 # Attained from
 # http://tinyurl.com/lmjwvqj
 
+require_relative '../libraries/cert_helpers'
+
 package 'ca-certificates'
 
-remote_file '/etc/pki/ca-trust/source/anchors/doi.cer' do
-  source "file://#{node.run_state[:doi_ssl_cert_location]}"
-  # The certificate is public but I don't want the logs to be
-  # filled with it
-  sensitive true
-  notifies :run, 'execute[update ca certs]', :immediately
+node['doi_ssl_filtering']['cert_locations'].each do |loc|
+  filename = get_cert_filemame(loc)
+  local_file_path = File.join(Chef::Config[:file_cache_path], filename)
+
+  remote_file "/etc/pki/ca-trust/source/anchors/#{filename}" do
+    source "file://#{local_file_path}"
+    # The certificate is public but I don't want the logs to be
+    # filled with it
+    sensitive true
+    notifies :run, 'execute[update ca certs]', :immediately
+  end
 end
 
 execute 'update ca certs' do

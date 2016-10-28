@@ -1,6 +1,11 @@
 DOI SSL Filtering
 =================
 
+v1.0.0
+------
+- [isuftin@usgs.gov] - Updating cookbook to allow for multiple certificates
+- [isuftin@usgs.gov] - Rubocop linting and some refactoring/cleanup
+
 v0.0.3
 ------
 - [jmorris@usgs.gov] - Added support for windows

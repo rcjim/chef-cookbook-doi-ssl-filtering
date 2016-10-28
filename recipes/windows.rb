@@ -4,7 +4,12 @@
 #
 # Adds the DOI certificate to the windows certificate store
 
-windows_certificate node.run_state[:doi_ssl_cert_location] do
-  store_name 'ROOT'
-  action :create
+node['doi_ssl_filtering']['cert_locations'].each do |loc|
+  filename = get_cert_filemame(loc)
+  original_file = File.join(Chef::Config[:file_cache_path], filename)
+
+  windows_certificate original_file do
+    store_name 'ROOT'
+    action :create
+  end
 end

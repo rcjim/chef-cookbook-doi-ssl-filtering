@@ -25,18 +25,19 @@ suites:
     excludes:
       - windows-2012r2
     run_list:
-      - recipe[doi_ssl_filtering::default]
+      - recipe[doi_ssl_filtering]
 
 #  NOTE: Once serverspec can autodetect the backend, this won't be needed
   - name: windefault
     includes:      
       - windows-2012r2
     run_list:
-      - recipe[doi_ssl_filtering::default]
+      - recipe[doi_ssl_filtering]
 
   - name: java-oracle
     run_list:
-      - recipe[doi_ssl_filtering::default]
+      - recipe[doi_ssl_filtering]
+      - recipe[doi_ssl_filtering::kitchen]
       - recipe[java]
       - recipe[doi_ssl_filtering::java]
     data_bags_path: './test/integration/default/data_bags/'
@@ -53,7 +54,8 @@ suites:
 
   - name: java-openjdk
     run_list:
-      - recipe[doi_ssl_filtering::default]
+      - recipe[doi_ssl_filtering]
+      - recipe[doi_ssl_filtering::kitchen]
       - recipe[java]
       - recipe[doi_ssl_filtering::java]
     data_bags_path: './test/integration/default/data_bags/'

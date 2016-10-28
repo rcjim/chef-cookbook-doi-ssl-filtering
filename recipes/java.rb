@@ -14,7 +14,7 @@ rescue
   Chef::Log.info('A java data bag does not exist. Will attempt to use Java store password \'changeit\'')
 end
 
-execute "add cert to java keystore" do
+execute 'add cert to java keystore' do
   command "/usr/bin/keytool -keystore $JAVA_HOME/jre/lib/security/cacerts -importcert -alias #{cert_alias} -file #{node.run_state[:doi_ssl_cert_location]} -storepass #{java_store_password} -noprompt"
   not_if "/usr/bin/keytool -list -keystore $JAVA_HOME/jre/lib/security/cacerts -alias #{cert_alias} -storepass #{java_store_password}"
 end

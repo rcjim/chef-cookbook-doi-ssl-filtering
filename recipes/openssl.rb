@@ -14,7 +14,7 @@ remote_file '/etc/pki/ca-trust/source/anchors/doi.cer' do
   # The certificate is public but I don't want the logs to be
   # filled with it
   sensitive true
-  notifies :run, "execute[update ca certs]", :immediately
+  notifies :run, 'execute[update ca certs]', :immediately
 end
 
 execute 'update ca certs' do

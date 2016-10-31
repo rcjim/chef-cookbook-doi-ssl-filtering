@@ -2,7 +2,9 @@
 # http://...
 # or
 # file:///path/to/file
-default['doi_ssl_filtering']['cert_location'] = 'http://blockpage.doi.gov/images/DOIRootCA.crt'
+default['doi_ssl_filtering']['cert_locations'] = [
+  'http://blockpage.doi.gov/images/DOIRootCA.crt'
+]
 
 # Java
 # The Java keystore as installed by default has a password (usually 'changeit').

@@ -1,9 +1,9 @@
 {
   "id": "java",
   "keystore_password": {
-    "encrypted_data": "AeQLtFuv+9/deCXqpd61cKHvn2Bj43lgVoKxTcgRuPE=\n",
-    "hmac": "pqZPiM8r5NA6lqOERCRMht0YQ/781Zh8RhviZBD2lvs=\n",
-    "iv": "J7uBE48eQhDD0zfuutk0vA==\n",
+    "encrypted_data": "8vWYfvr6hpyKaUNlbbuZlZ36DXfWeKitB81eqqGTrUI=\n",
+    "hmac": "ISfNBh1Xxx+zNx51VvFMCBgRTClWFeIo+WdoPwjRTsU=\n",
+    "iv": "CGpMRnsLA4AYlkUnY4mE5A==\n",
     "version": 2,
     "cipher": "aes-256-cbc"
   }

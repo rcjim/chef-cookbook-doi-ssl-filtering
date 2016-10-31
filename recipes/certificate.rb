@@ -2,45 +2,21 @@
 # Cookbook Name:: doi_ssl_filtering
 # Recipe:: certificate
 #
-# Description: Gets the DOI root ceritificate
+# Description: Gets the DOI root ceritificates
 
-require 'uri'
-require_relative '../files/default/cert_helpers'
+require_relative '../libraries/cert_helpers'
 
-node.run_state[:doi_ssl_cert_location] = "#{Chef::Config[:file_cache_path]}/doi.cer"
-if node['platform'] == "windows"
-  node.run_state[:doi_ssl_cert_location] = (node.run_state[:doi_ssl_cert_location]).gsub("\\", "/")
-end
-path = node['doi_ssl_filtering']['cert_location']
-retrieve_cert = cert_needs_update(path, node.run_state[:doi_ssl_cert_location])
+node['doi_ssl_filtering']['cert_locations'].each do |loc|
+  filename = get_cert_filemame(loc)
+  local_file_path = File.join(Chef::Config[:file_cache_path], filename)
 
-if path.to_s == ''
-  Chef::Application.fatal!('"doi_ssl_filtering.cert_location" attribute is required', 1)
-end
-
-scheme = URI.parse(path).scheme
-if retrieve_cert == true
-  if scheme == 'http' || scheme == 'https'
-    # Attempt to grab the DOI cert remotely. If HTTPS,
-    # this will probably require bypassing SSL verification
-    # since we may be on the DOI network
-    if node['platform'] != "windows"
-      execute 'Get remote DOI cert via curl' do
-        command "curl -k -o #{node.run_state[:doi_ssl_cert_location]} '#{path}'"
-        not_if do ::File.exists?(node.run_state[:doi_ssl_cert_location]) end
-      end
-    else
-      powershell_script 'Get remote DOI cert via powershell' do
-        code "[System.Net.ServicePointManager]::ServerCertificateValidationCallback = {$true}; (New-Object System.Net.WebClient).DownloadFile('#{path}', '#{node.run_state[:doi_ssl_cert_location]}')"
-        not_if do ::File.exists?(node.run_state[:doi_ssl_cert_location]) end
-      end
-    end
-  elsif scheme == 'file'
-    remote_file 'Get local DOI cert' do
-      source path
-      not_if do ::File.exists?(node.run_state[:doi_ssl_cert_location]) end
-    end
-  else
-    Chef::Application.fatal!('Could not properly parse the path in "doi_ssl_filtering.cert_location". Must start with "http://", "https://" or "file://"', 1)
+  remote_file local_file_path do
+    source loc
+    # The certificate is public but I don't want the logs to be
+    # filled with it
+    sensitive true
+    use_last_modified true
+    use_etag true
+    use_conditional_get true
   end
 end

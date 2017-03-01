@@ -1,6 +1,10 @@
 DOI SSL Filtering
 =================
 
+v1.0.2
+------
+- [isuftin@usgs.gov] - Relaxed third party cookbook Java version requirement
+
 v1.0.1
 ------
 - [isuftin@usgs.gov] - Java recipe now allows alternate locations for keystore

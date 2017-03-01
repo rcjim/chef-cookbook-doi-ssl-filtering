@@ -9,4 +9,4 @@ source_url 'https://github.com/USGS-CIDA/chef-cookbook-doi-ssl-filtering'
 version '1.0.1'
 
 depends 'windows', '>= 1.44.3'
-depends 'java', '~> 1.47.0'
+depends 'java'

@@ -5,6 +5,10 @@
 # Attempts to fix SSL certificate issues with Java
 
 require_relative '../libraries/cert_helpers'
+java_keystore_location = node['doi_ssl_filtering']['java']['location']['keystore']
+if java_keystore_location == ''
+  java_keystore_location = "#{node['java']['java_home']}/jre/lib/security/cacerts"
+end
 
 encrypted_data_bag_name = node['doi_ssl_filtering']['encrypted_data_bag_name']
 begin
@@ -19,7 +23,7 @@ node['doi_ssl_filtering']['cert_locations'].each do |loc|
   original_file = File.join(Chef::Config[:file_cache_path], filename)
 
   execute 'add cert to java keystore' do
-    command "/usr/bin/keytool -keystore $JAVA_HOME/jre/lib/security/cacerts -importcert -alias #{filename} -file #{original_file} -storepass #{java_store_password} -noprompt"
-    not_if "keytool -list -keystore $JAVA_HOME/jre/lib/security/cacerts -v -storepass changeit | grep -q $(/usr/bin/openssl x509 -noout -in #{original_file} -fingerprint -md5 | cut -d '=' -f 2)"
+    command "/usr/bin/keytool -keystore #{java_keystore_location} -importcert -alias #{filename} -file #{original_file} -storepass #{java_store_password} -noprompt"
+    not_if "keytool -list -keystore #{java_keystore_location} -v -storepass #{java_store_password} | grep -q $(/usr/bin/openssl x509 -noout -in #{original_file} -fingerprint -md5 | cut -d '=' -f 2)"
   end
 end

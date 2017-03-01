@@ -8,15 +8,15 @@ provisioner:
     ssl_verify_mode: ":verify_none"
 
 platforms:
-  - name: centos-6.7-vbox
+  - name: centos-6.8-vbox
     driver:
-      box: bento/centos-6.7
-      box_url: bento/centos-6.7
+      box: bento/centos-6.8
+      box_url: bento/centos-6.8
       provider: virtualbox
-  - name: centos-6.7-vmware
+  - name: centos-6.8-vmware
     driver:
-      box: bento/centos-6.7
-      box_url: bento/centos-6.7
+      box: bento/centos-6.8
+      box_url: bento/centos-6.8
       provider: vmware_fusion
   - name: windows-2012r2
 
@@ -30,7 +30,7 @@ suites:
 
 #  NOTE: Once serverspec can autodetect the backend, this won't be needed
   - name: windefault
-    includes:      
+    includes:
       - windows-2012r2
     run_list:
       - recipe[doi_ssl_filtering]
@@ -61,4 +61,3 @@ suites:
       - recipe[doi_ssl_filtering::java]
     data_bags_path: './test/integration/default/data_bags/'
     encrypted_data_bag_secret_key_path: './test/integration/default/encrypted_data_bag_secret'
-

@@ -1,6 +1,12 @@
 DOI SSL Filtering
 =================
 
+v1.0.1
+------
+- [isuftin@usgs.gov] - Java recipe now allows alternate locations for keystore
+- [isuftin@usgs.gov] - Updated Kitchen configuration to use CentOS 6.8 (was 6.7)
+- [isuftin@usgs.gov] - Made community Java cookbook a hard dependency
+
 v1.0.0
 ------
 - [isuftin@usgs.gov] - Updating cookbook to allow for multiple certificates

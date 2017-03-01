@@ -11,3 +11,7 @@ default['doi_ssl_filtering']['cert_locations'] = [
 # This password is stored in an encrypted databag. If the data bag does not exist
 # in your cookbook, the default 'changeit' password will be used
 default['doi_ssl_filtering']['encrypted_data_bag_name'] = 'doi_ssl_filtering_default'
+
+# If this is left blank, the default keystore that will be used will be:
+# $JAVA_HOME/jre/lib/security/cacerts
+default['doi_ssl_filtering']['java']['location']['keystore'] = ''

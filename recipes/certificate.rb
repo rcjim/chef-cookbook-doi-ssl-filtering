@@ -18,5 +18,6 @@ node['doi_ssl_filtering']['cert_locations'].each do |loc|
     use_last_modified true
     use_etag true
     use_conditional_get true
+    action :create_if_missing
   end
 end

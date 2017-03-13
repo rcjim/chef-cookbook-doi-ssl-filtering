@@ -1,6 +1,10 @@
 DOI SSL Filtering
 =================
 
+v1.0.3
+------
+- [isuftin@usgs.gov] - Only try to pull down CACert if missing
+
 v1.0.2
 ------
 - [isuftin@usgs.gov] - Relaxed third party cookbook Java version requirement

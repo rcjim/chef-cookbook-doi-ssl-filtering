@@ -20,7 +20,7 @@ node['doi_ssl_filtering']['cert_locations'].each do |loc|
   original_file = File.join(Chef::Config[:file_cache_path], filename)
   local_ssl_file = File.join(topdir, 'chef', 'embedded', 'ssl', filename)
 
-  remote_file 'Create Chef SSL Cert' do
+  remote_file "Create Chef SSL Cert #{local_ssl_file}" do
     path local_ssl_file
     source "file://#{original_file}"
     # The certificate is public but I don't want the logs to be
@@ -29,7 +29,7 @@ node['doi_ssl_filtering']['cert_locations'].each do |loc|
   end
 
   # The file also needs to be appended to /opt/chef/embedded/ssl/certs/cacert.pem
-  ruby_block 'Reload client config' do
+  ruby_block "Reload client config for #{local_ssl_file}" do
     block do
       to_append = File.read(original_file)
       File.open(cacert_file, 'a') do |handle|
@@ -37,6 +37,6 @@ node['doi_ssl_filtering']['cert_locations'].each do |loc|
       end
     end
     action :nothing
-    subscribes :create, 'remote_file[Create Chef SSL Cert]', :immediately
+    subscribes :create, "remote_file[Create Chef SSL Cert #{local_ssl_file}]", :immediately
   end
 end

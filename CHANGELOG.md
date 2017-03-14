@@ -1,6 +1,10 @@
 DOI SSL Filtering
 =================
 
+v1.0.4
+------
+- [isuftin@usgs.gov] - Removed resource cloning
+
 v1.0.3
 ------
 - [isuftin@usgs.gov] - Only try to pull down CACert if missing

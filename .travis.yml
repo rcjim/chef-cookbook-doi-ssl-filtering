@@ -3,10 +3,9 @@ language: ruby
 env:
   global:
     - machine_user=travis
-    - CHEF_VERSION=latest
+    - CHEF_VERSION=13.0.118
     - machine_pass=travis
     - machine_port=22
-    - KITCHEN_YAML=.kitchen.travis.yml
 
 rvm:
   - 2.3.0

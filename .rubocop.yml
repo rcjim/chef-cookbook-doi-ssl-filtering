@@ -1,6 +1,8 @@
 AllCops:
   Exclude:
-    - 'test/**/*'
+    - vendor/**/*
+    - test/**/*
+    - spec/**/*
 
 Metrics/LineLength:
   Max: 200

@@ -1,6 +1,17 @@
 DOI SSL Filtering
 =================
 
+v1.0.5
+------
+- [isuftin@usgs.gov] - Simplified the way in which to identify the system SSL cert
+	that Ruby uses
+- [isuftin@usgs.gov] - Added inspec testing for the Ruby recipe
+- [isuftin@usgs.gov] - Deprecated the Kitchen recipe
+- [isuftin@usgs.gov] - Added sample root SSL cert (and key)
+- [isuftin@usgs.gov] - Added LICENSE file
+- [isuftin@usgs.gov] - Updated metadata.rb to include current standards as per foodcritic
+- [isuftin@usgs.gov] - Added Travis testing
+
 v1.0.4
 ------
 - [isuftin@usgs.gov] - Removed resource cloning

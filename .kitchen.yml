@@ -8,19 +8,37 @@ provisioner:
     ssl_verify_mode: ":verify_none"
 
 platforms:
-  - name: centos-6.8-vbox
-    driver:
-      box: bento/centos-6.8
-      box_url: bento/centos-6.8
-      provider: virtualbox
-  - name: centos-6.8-vmware
-    driver:
-      box: bento/centos-6.8
-      box_url: bento/centos-6.8
-      provider: vmware_fusion
+  - name: centos-6.8
   - name: windows-2012r2
 
 suites:
+  - name: ruby
+    excludes:
+      - windows-2012r2
+    run_list:
+      - recipe[doi_ssl_filtering]
+      - recipe[doi_ssl_filtering::ruby]
+    data_path: './test/files'
+    data_bags_path: './test/integration/default/data_bags/'
+    encrypted_data_bag_secret_key_path: './test/integration/default/encrypted_data_bag_secret'
+    verifier:
+      name: inspec
+      inspec_tests:
+        - name: ruby
+          path: test/integration/centos6/inspec/controls/ruby_spec.rb
+      controls:
+        - check-ruby-ssl-with-callout
+        - check-ruby-ssl-cert
+      attrs:
+        - test/integration/centos6/inspec/attributes/attributes.yml
+    attributes: {
+      "doi_ssl_filtering" : {
+        "cert_locations" : [
+          "file:///tmp/kitchen/data/rootCA.pem"
+        ]
+      }
+    }
+
   - name: default
     excludes:
       - windows-2012r2
@@ -30,6 +48,8 @@ suites:
 
 #  NOTE: Once serverspec can autodetect the backend, this won't be needed
   - name: windefault
+    excludes:
+      - centos-6.8
     includes:
       - windows-2012r2
     run_list:
@@ -53,7 +73,34 @@ suites:
       }
     }
 
+  - name: java-oracle
+    run_list:
+      - recipe[doi_ssl_filtering]
+      - recipe[doi_ssl_filtering::ruby]
+      - recipe[java]
+      - recipe[doi_ssl_filtering::java]
+    data_bags_path: './test/integration/default/data_bags/'
+    encrypted_data_bag_secret_key_path: './test/integration/default/encrypted_data_bag_secret'
+    attributes: {
+      "java" : {
+          "install_flavor" : "oracle",
+          "jdk_version" : "8",
+          "oracle" : {
+               "accept_oracle_download_terms" : true
+          }
+      },
+      "doi_ssl_filtering" : {
+        "cert_locations" : [
+          "file:///tmp/kitchen/data/rootCA.pem"
+        ]
+      }
+    }
+
   - name: java-openjdk
+    excludes:
+      - windows-2012r2
+    includes:
+      - centos-6.8
     run_list:
       - recipe[doi_ssl_filtering]
       - recipe[doi_ssl_filtering::kitchen]

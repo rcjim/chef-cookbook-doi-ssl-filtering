@@ -12,8 +12,6 @@ node['doi_ssl_filtering']['cert_locations'].each do |loc|
 
   remote_file local_file_path do
     source loc
-    # The certificate is public but I don't want the logs to be
-    # filled with it
     sensitive true
     use_last_modified true
     use_etag true

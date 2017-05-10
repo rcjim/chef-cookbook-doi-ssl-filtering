@@ -1,12 +1,8 @@
 #
 # Cookbook Name:: doi_ssl_filtering
-# Recipe:: kitchen
+# Recipe:: ruby
 #
-# Updates the DOI certificate for guest VMs created
-# and tested via Chef's Test Kitchen utility
-#
-# DEPRECATION WARNING: This recipe will be removed in later versions. Please
-# switch to the ruby recipe
+# Updates the SSL root certificate for Ruby
 
 require_relative '../libraries/cert_helpers'
 require 'net/https'

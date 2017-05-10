@@ -2,3 +2,5 @@
 .kitchen.local.yml
 Berksfile.lock
 .DS_Store
+test/files/local_certificate.cer
+Gemfile.lock

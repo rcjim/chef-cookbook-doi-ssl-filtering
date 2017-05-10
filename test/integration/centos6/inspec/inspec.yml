@@ -1,0 +1,7 @@
+name: centos6
+title: CentOS 6 tests
+maintainer: Ivan Suftin (isuftin@usgs.gov)
+license: Public domain
+copyright: None
+summary: Tests the cookbook against CentOS 6.x
+version: 0.0.1

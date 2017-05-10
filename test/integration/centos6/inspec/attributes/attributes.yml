@@ -1,0 +1,3 @@
+ruby_location: '/opt/chef/embedded/bin/ruby'
+https_url: 'https://www.google.com:443/'
+local_certificate_name: 'rootCA.pem'

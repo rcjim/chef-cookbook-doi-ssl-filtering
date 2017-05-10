@@ -3,7 +3,6 @@ language: ruby
 env:
   global:
     - machine_user=travis
-    - CHEF_VERSION=13.0.118
     - machine_pass=travis
     - machine_port=22
 

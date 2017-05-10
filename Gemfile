@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 gem 'berkshelf'
+gem 'chef', '>= 13.0.118'
 gem 'chefspec'
 gem 'foodcritic', '>= 10.2.1'
 gem 'inspec'

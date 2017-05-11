@@ -1,6 +1,10 @@
 DOI SSL Filtering
 =================
 
+v1.0.6
+------
+- [isuftin@usgs.gov] - Relaxed supported Chef version to 12, down from 13
+
 v1.0.5
 ------
 - [isuftin@usgs.gov] - Simplified the way in which to identify the system SSL cert

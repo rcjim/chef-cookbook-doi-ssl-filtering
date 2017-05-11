@@ -6,9 +6,9 @@ description 'Installs/Configures openssl and ruby applications for DOI SSL filte
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 issues_url 'https://github.com/USGS-CIDA/chef-cookbook-doi-ssl-filtering/issues'
 source_url 'https://github.com/USGS-CIDA/chef-cookbook-doi-ssl-filtering'
-version '1.0.5'
+version '1.0.6'
 
 supports 'centos', '~> 6.8'
-chef_version '~> 13.0.0'
+chef_version '>= 12.0.0'
 depends 'windows'
 depends 'java'

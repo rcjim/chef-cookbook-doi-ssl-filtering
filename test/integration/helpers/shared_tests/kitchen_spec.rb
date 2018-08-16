@@ -5,7 +5,7 @@ if os[:family] == 'windows'
   topdir = 'c:/opscode'
 end
 
-describe file("#{topdir}/chef/embedded/ssl/DOIRootCA.crt") do
+describe file("#{topdir}/chef/embedded/ssl/certs/rootCA.pem") do
   it { should exist }
   it { should be_file }
 end

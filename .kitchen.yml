@@ -6,9 +6,13 @@ provisioner:
   name: chef_zero
   client_rb:
     ssl_verify_mode: ":verify_none"
+  data_path: './test/files'
+  data_bags_path: './test/integration/default/data_bags/'
+  encrypted_data_bag_secret_key_path: './test/integration/default/encrypted_data_bag_secret'
 
 platforms:
-  - name: centos-6.8
+  - name: centos-6
+  - name: centos-7
   - name: windows-2012r2
 
 suites:
@@ -18,9 +22,6 @@ suites:
     run_list:
       - recipe[doi_ssl_filtering]
       - recipe[doi_ssl_filtering::ruby]
-    data_path: './test/files'
-    data_bags_path: './test/integration/default/data_bags/'
-    encrypted_data_bag_secret_key_path: './test/integration/default/encrypted_data_bag_secret'
     verifier:
       name: inspec
       inspec_tests:
@@ -39,48 +40,32 @@ suites:
       }
     }
 
-  - name: default
-    excludes:
-      - windows-2012r2
-    run_list:
-      - recipe[doi_ssl_filtering]
-      - recipe[doi_ssl_filtering::kitchen]
-
 #  NOTE: Once serverspec can autodetect the backend, this won't be needed
   - name: windefault
     excludes:
-      - centos-6.8
-    includes:
+      - centos-6
+      - centos-7
+# NOTE: serverspec no longer working
+#    includes:
       - windows-2012r2
     run_list:
       - recipe[doi_ssl_filtering]
-
-  - name: java-oracle
-    run_list:
-      - recipe[doi_ssl_filtering]
-      - recipe[doi_ssl_filtering::kitchen]
-      - recipe[java]
-      - recipe[doi_ssl_filtering::java]
-    data_bags_path: './test/integration/default/data_bags/'
-    encrypted_data_bag_secret_key_path: './test/integration/default/encrypted_data_bag_secret'
     attributes: {
-      "java" : {
-          "install_flavor" : "oracle",
-          "jdk_version" : "8",
-          "oracle" : {
-               "accept_oracle_download_terms" : true
-          }
+      "doi_ssl_filtering" : {
+        "cert_locations" : [
+          "file:///Users/vagrant/AppData/Local/Temp/kitchen/data/rootCA.pem"
+        ]
       }
     }
 
   - name: java-oracle
+    excludes:
+      - windows-2012r2
     run_list:
       - recipe[doi_ssl_filtering]
       - recipe[doi_ssl_filtering::ruby]
       - recipe[java]
       - recipe[doi_ssl_filtering::java]
-    data_bags_path: './test/integration/default/data_bags/'
-    encrypted_data_bag_secret_key_path: './test/integration/default/encrypted_data_bag_secret'
     attributes: {
       "java" : {
           "install_flavor" : "oracle",
@@ -99,12 +84,18 @@ suites:
   - name: java-openjdk
     excludes:
       - windows-2012r2
-    includes:
-      - centos-6.8
     run_list:
       - recipe[doi_ssl_filtering]
-      - recipe[doi_ssl_filtering::kitchen]
+      - recipe[doi_ssl_filtering::ruby]
       - recipe[java]
       - recipe[doi_ssl_filtering::java]
-    data_bags_path: './test/integration/default/data_bags/'
-    encrypted_data_bag_secret_key_path: './test/integration/default/encrypted_data_bag_secret'
+    attributes: {
+      "doi_ssl_filtering" : {
+        "cert_locations" : [
+          "file:///tmp/kitchen/data/rootCA.pem"
+        ]
+      },
+      "java": {
+        "jdk_version": "8"
+      },
+    }

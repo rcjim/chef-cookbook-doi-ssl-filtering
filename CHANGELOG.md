@@ -4,6 +4,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [UNRELEASED]
+- [jmorris@usgs.gov] - Added resource java_keytool_management for importing certs into Java
+- [jmorris@usgs.gov] - Added Java 10 to the Kitchen test suite
 ### Removed
 - [jmorris@usgs.gov] - Removed Test Kitchen "default" test suite
 ### Updated
@@ -13,6 +15,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - [jmorris@usgs.gov] - Updated Test Kitchen to use Java 8
 - [jmorris@usgs.gov] - Updated Test Kitchen to use ruby recipe instead of the deprecated kitchen recipe
 - [jmorris@usgs.gov] - Updated tests to use the provided rootCA Cert
+- [jmorris@usgs.gov] - Various Rubocop style changes
+- [jmorris@usgs.gov] - Use SHA1 or SHA256 for the fingerprint matching
+- [jmorris@usgs.gov] - Updated metadata.platforms for CentOS 6.8+ and 7.0+
 
 ## [1.0.6] - 2017-05-11
 ### Updated

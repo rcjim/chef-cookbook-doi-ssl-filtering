@@ -4,7 +4,7 @@ def get_cert_filemame(location)
   # Gets the certificate's filename from the URI location
   uri = URI.parse(location)
   scheme = uri.scheme
-  if scheme == 'http' || scheme == 'https'
+  if %w[http https].include?(scheme)
     uri.path.split('/').last
   elsif scheme == 'file'
     File.basename(location)
@@ -25,8 +25,8 @@ def cert_needs_update(remote, local)
     block do
       Chef::Resource::RubyBlock.send(:include, Chef::Mixin::ShellOut)
       curl_command = "curl -sI '#{remote}' | grep Content-Length | awk '{print $2}'"
-      shell_out(curl_command).stdout.to_s != File.size(local) ? true : false
+      shell_out(curl_command).stdout.to_s != File.size(local)
     end
-    action :create
+    action :run
   end
 end

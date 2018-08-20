@@ -20,7 +20,7 @@ node['doi_ssl_filtering']['cert_locations'].each do |loc|
     source "file://#{original_file}"
     # The certificate is public but I don't want the logs to be filled with it
     sensitive true
-    notifies :create, "ruby_block[Append #{local_ssl_file} to #{cacert_file}]", :immediately
+    notifies :run, "ruby_block[Append #{local_ssl_file} to #{cacert_file}]", :immediately
   end
 
   # The file also needs to be appended to cacert_file

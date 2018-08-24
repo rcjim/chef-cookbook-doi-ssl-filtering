@@ -40,16 +40,22 @@ suites:
       }
     }
 
-#  NOTE: Once serverspec can autodetect the backend, this won't be needed
-  - name: windefault
-    excludes:
-      - centos-6
-      - centos-7
-# NOTE: serverspec no longer working
-#    includes:
+  - name: ruby-win
+    includes:
       - windows-2012r2
     run_list:
       - recipe[doi_ssl_filtering]
+      - recipe[doi_ssl_filtering::ruby]
+    verifier:
+      name: inspec
+      inspec_tests:
+        - name: ruby
+          path: test/integration/centos6/inspec/controls/ruby_spec.rb
+      controls:
+        - check-ruby-ssl-with-callout
+        - check-ruby-ssl-cert
+      attrs:
+        - test/integration/centos6/inspec/attributes/windows_attributes.yml
     attributes: {
       "doi_ssl_filtering" : {
         "cert_locations" : [
@@ -112,6 +118,7 @@ suites:
           }
        }
     }
+
   - name: java-openjdk
     excludes:
       - windows-2012r2

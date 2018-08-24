@@ -27,7 +27,7 @@ control 'check-ruby-ssl-with-callout' do
 	ruby_ssl_out = command("#{ruby_location} -e \"require 'net/https';req = Net::HTTP.new('#{url.host}', #{url.port});req.use_ssl = true;res = req.request_head('#{url.path}');puts res.code\"")
 	describe ruby_ssl_out do
 		its('exit_status') { should eq 0 }
-		its('stdout') { should match (/200\n/) }
+		its('stdout') { should match (/200\s+/) }
 		its('stderr') { should match (//) }
 	end
 end

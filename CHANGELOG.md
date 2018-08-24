@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [UNRELEASED]
 - [jmorris@usgs.gov] - Added resource java_keytool_management for importing certs into Java
 - [jmorris@usgs.gov] - Added Java 10 to the Kitchen test suite
+- [jmorris@usgs.gov] - Added Windows support to the ruby recipe and inspec tests
 ### Removed
 - [jmorris@usgs.gov] - Removed Test Kitchen "default" test suite
 ### Updated
@@ -18,6 +19,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - [jmorris@usgs.gov] - Various Rubocop style changes
 - [jmorris@usgs.gov] - Use SHA1 or SHA256 for the fingerprint matching
 - [jmorris@usgs.gov] - Updated metadata.platforms for CentOS 6.8+ and 7.0+
+- [jmorris@usgs.gov] - Renamed windows test suite to be ruby-win
+- [jmorris@usgs.gov] - Switched windows test suite from serverspec to inspec
 
 ## [1.0.6] - 2017-05-11
 ### Updated

@@ -14,7 +14,7 @@ cacert_file = ENV[OpenSSL::X509::DEFAULT_CERT_FILE_ENV] || OpenSSL::X509::DEFAUL
 node['doi_ssl_filtering']['cert_locations'].each do |loc|
   filename = get_cert_filemame(loc)
   original_file = if platform_family?('windows')
-                    File.join(Chef::Config[:file_cache_path], filename).gsub(File::ALT_SEPARATOR,File::SEPARATOR)
+                    File.join(Chef::Config[:file_cache_path], filename).gsub(File::ALT_SEPARATOR, File::SEPARATOR)
                   else
                     File.join(Chef::Config[:file_cache_path], filename)
                   end

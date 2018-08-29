@@ -13,20 +13,29 @@ property :keystore, String, required: false
 property :storepass, String, required: false
 
 action :import do
-  keytool_args = ['-keystore', java_cacerts_location(new_resource.keystore),
-                  '-noprompt']
-  import_args = ['-importcert',
-                 '-alias', new_resource.cert_alias,
-                 '-file', new_resource.certificate]
-  list_args = ['-list']
-  keytool_args.push('-storepass', new_resource.storepass) unless new_resource.storepass.nil?
+  if platform_family?('windows')
+    keystore = 'ROOT' if new_resource.keystore.nil?
+    windows_certificate new_resource.cert_alias do
+      source new_resource.certificate
+      store_name keystore
+      action :create
+    end
+  else
+    keytool_args = ['-keystore', java_cacerts_location(new_resource.keystore),
+                    '-noprompt']
+    import_args = ['-importcert',
+                   '-alias', new_resource.cert_alias,
+                   '-file', new_resource.certificate]
+    list_args = ['-list']
+    keytool_args.push('-storepass', new_resource.storepass) unless new_resource.storepass.nil?
 
-  execute "Add cert @#{new_resource.name} to java keystore" do
-    command "#{keytool_location} #{import_args.join(' ')} #{keytool_args.join(' ')}"
-    not_if "#{keytool_location} #{list_args.join(' ')} #{keytool_args.join(' ')} "\
-           "| grep -q $(/usr/bin/openssl x509 -noout -in #{new_resource.certificate} -fingerprint -#{fingerprint_digest} | cut -d '=' -f 2)"
-    sensitive true unless new_resource.storepass.nil?
-    action :run
+    execute "Add cert @#{new_resource.name} to java keystore" do
+      command "#{keytool_location} #{import_args.join(' ')} #{keytool_args.join(' ')}"
+      not_if "#{keytool_location} #{list_args.join(' ')} #{keytool_args.join(' ')} "\
+             "| grep -q $(/usr/bin/openssl x509 -noout -in #{new_resource.certificate} -fingerprint -#{fingerprint_digest} | cut -d '=' -f 2)"
+      sensitive true unless new_resource.storepass.nil?
+      action :run
+    end
   end
 end
 

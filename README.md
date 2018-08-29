@@ -41,5 +41,8 @@ certificate store cacerts
 
 * `cert_alias`, String. An alternate name for the certificate being imported
 * `certificate`, String. The certificate to import
-* `keystore`, String. The keystore location
-* `storepass`, String. The password used to protect the keystore
+* `keystore`, String. The keystore location. For windows,
+                      one of MY, CA, ROOT, TRUSTEDPUBLISHER, CLIENTAUTHISSUER,
+                      REMOTEDESKTOP, TRUSTEDDEVICES, WEBHOSTING, AUTHROOT,
+                      TRUSTEDPEOPLE, SMARTCARDROOT, and TRUST
+* `storepass`, String. The password used to protect the keystore. Ignored for windows

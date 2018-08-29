@@ -4,9 +4,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [UNRELEASED]
+### Added
 - [jmorris@usgs.gov] - Added resource java_keytool_management for importing certs into Java
 - [jmorris@usgs.gov] - Added Java 10 to the Kitchen test suite
 - [jmorris@usgs.gov] - Added Windows support to the ruby recipe and inspec tests
+- [jmorris@usgs.gov] - Added Windows support to the java recipe
+
 ### Removed
 - [jmorris@usgs.gov] - Removed Test Kitchen "default" test suite
 ### Updated
@@ -23,6 +26,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - [jmorris@usgs.gov] - Switched windows test suite from serverspec to inspec
 - [jmorris@usgs.gov] - Updated ruby inspect test to run on both unix and windows
 - [jmorris@usgs.gov] - Updated chefspec test for ruby to check the ruby block
+- [jmorris@usgs.gov] - Updated windows version in Berksfile
 
 ## [1.0.6] - 2017-05-11
 ### Updated

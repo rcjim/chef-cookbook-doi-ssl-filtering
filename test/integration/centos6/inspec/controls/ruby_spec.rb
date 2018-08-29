@@ -40,14 +40,20 @@ control 'check-ruby-ssl-cert' do
 	in the combination ruby SSL cert
 	'
 	tag 'ruby','ssl','certificate'
-	system_cert = command("#{ruby_location} -e \"require 'net/https';\" -e \"print OpenSSL::X509::DEFAULT_CERT_FILE\"").stdout
-	ca_path = command("#{ruby_location} -e \"require 'net/https';\" -e \"print OpenSSL::X509::DEFAULT_CERT_DIR\"").stdout
-	orig_cert_len = command("sed '1d;$d' #{ca_path}\/#{local_certificate_name} | wc -l").stdout
-	match_len = command("grep -f < <(sed '1d;$d' #{ca_path}/#{local_certificate_name}) #{system_cert} | wc -l")
-
-	describe match_len do
-		its('exit_status') { should eq 0 }
-		its('stdout') { should eq (orig_cert_len) }
-		its('stderr') { should match (//) }
-	end
+	system_cert = command("#{ruby_location} -e \"require 'net/https';\" -e \"print ENV[OpenSSL::X509::DEFAULT_CERT_FILE_ENV] || OpenSSL::X509::DEFAULT_CERT_FILE\"").stdout.strip
+	ca_path = command("#{ruby_location} -e \"require 'net/https';\" -e \"print (ENV[OpenSSL::X509::DEFAULT_CERT_DIR_ENV] || OpenSSL::X509::DEFAULT_CERT_DIR).chomp('/')\"").stdout.strip
+        
+        cert = command("#{ruby_location} -e \"print File.read('#{ca_path}/#{local_certificate_name}')\"")
+        describe cert do
+          its('stderr') { should match (//) }
+          its('exit_status') { should eq 0 }
+          its('stdout') { should match (/BEGIN\s+CERTIFICATE/) }
+        end
+        cacerts = command("#{ruby_location} -e \"print File.read('#{system_cert}')\"")
+        describe cacerts do
+          its('stderr') { should match (//) }
+          its('exit_status') { should eq 0 }
+          its('stdout') { should match (/BEGIN\s+CERTIFICATE/) }
+          its('stdout') { should include cert.stdout }
+        end
 end

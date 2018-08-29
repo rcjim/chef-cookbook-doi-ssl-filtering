@@ -21,6 +21,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - [jmorris@usgs.gov] - Updated metadata.platforms for CentOS 6.8+ and 7.0+
 - [jmorris@usgs.gov] - Renamed windows test suite to be ruby-win
 - [jmorris@usgs.gov] - Switched windows test suite from serverspec to inspec
+- [jmorris@usgs.gov] - Updated ruby inspect test to run on both unix and windows
+- [jmorris@usgs.gov] - Updated chefspec test for ruby to check the ruby block
 
 ## [1.0.6] - 2017-05-11
 ### Updated

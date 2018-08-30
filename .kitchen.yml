@@ -10,6 +10,11 @@ provisioner:
   data_bags_path: './test/integration/default/data_bags/'
   encrypted_data_bag_secret_key_path: './test/integration/default/encrypted_data_bag_secret'
 
+verifier:
+  name: inspec
+  attrs:
+    - test/integration/centos6/inspec/attributes/attributes.yml
+
 platforms:
   - name: centos-6
   - name: centos-7
@@ -23,15 +28,12 @@ suites:
       - recipe[doi_ssl_filtering]
       - recipe[doi_ssl_filtering::ruby]
     verifier:
-      name: inspec
       inspec_tests:
         - name: ruby
           path: test/integration/centos6/inspec/controls/ruby_spec.rb
       controls:
         - check-ruby-ssl-with-callout
         - check-ruby-ssl-cert
-      attrs:
-        - test/integration/centos6/inspec/attributes/attributes.yml
     attributes: {
       "doi_ssl_filtering" : {
         "cert_locations" : [
@@ -47,7 +49,6 @@ suites:
       - recipe[doi_ssl_filtering]
       - recipe[doi_ssl_filtering::ruby]
     verifier:
-      name: inspec
       inspec_tests:
         - name: ruby
           path: test/integration/centos6/inspec/controls/ruby_spec.rb
@@ -72,6 +73,16 @@ suites:
       - recipe[doi_ssl_filtering::ruby]
       - recipe[java]
       - recipe[doi_ssl_filtering::java]
+    verifier:
+      inspec_tests:
+        - name: ruby
+          path: test/integration/centos6/inspec/controls/ruby_spec.rb
+        - name: java
+          path: test/integration/centos6/inspec/controls/java_spec.rb
+      controls:
+        - check-ruby-ssl-with-callout
+        - check-ruby-ssl-cert
+        - check-java-cacerts
     attributes: {
       "java" : {
           "install_flavor" : "oracle",
@@ -95,6 +106,16 @@ suites:
       - recipe[doi_ssl_filtering::ruby]
       - recipe[java]
       - recipe[doi_ssl_filtering::java]
+    verifier:
+      inspec_tests:
+        - name: ruby
+          path: test/integration/centos6/inspec/controls/ruby_spec.rb
+        - name: java
+          path: test/integration/centos6/inspec/controls/java_spec.rb
+      controls:
+        - check-ruby-ssl-with-callout
+        - check-ruby-ssl-cert
+        - check-java-cacerts
     attributes: {
       "doi_ssl_filtering" : {
         "cert_locations" : [
@@ -119,6 +140,87 @@ suites:
        }
     }
 
+  - name: java-oracle-win
+    includes:
+      - windows-2012r2
+    run_list:
+      - recipe[doi_ssl_filtering]
+      - recipe[doi_ssl_filtering::ruby]
+      - recipe[java]
+      - recipe[doi_ssl_filtering::java]
+    verifier:
+      inspec_tests:
+        - name: ruby
+          path: test/integration/centos6/inspec/controls/ruby_spec.rb
+        - name: java
+          path: test/integration/centos6/inspec/controls/java_spec.rb
+      controls:
+        - check-ruby-ssl-with-callout
+        - check-ruby-ssl-cert
+        - check-java-cacerts
+      attrs:
+        - test/integration/centos6/inspec/attributes/windows_attributes.yml
+    attributes: {
+      "java" : {
+          "install_flavor" : "windows",
+          "java_home": "C:\\Program Files (x86)\\Java\\jdk1.8.0",
+          "jdk_version" : "8",
+          "oracle" : {
+               "accept_oracle_download_terms" : true
+          },
+          "windows": {
+            "url": "http://download.oracle.com/otn-pub/java/jdk/8u181-b13/96a7b8442fe848ef90c96a2fad6ed6d1/jdk-8u181-windows-x64.exe",
+            "package_name": "Java SE Development Kit 8u181"
+          }
+      },
+      "doi_ssl_filtering" : {
+        "cert_locations" : [
+          "file:///Users/vagrant/AppData/Local/Temp/kitchen/data/rootCA.pem"
+        ]
+      }
+    }
+
+  - name: java10-oracle-win
+    includes:
+      - windows-2012r2
+    run_list:
+      - recipe[doi_ssl_filtering]
+      - recipe[doi_ssl_filtering::ruby]
+      - recipe[java]
+      - recipe[doi_ssl_filtering::java]
+    verifier:
+      inspec_tests:
+        - name: ruby
+          path: test/integration/centos6/inspec/controls/ruby_spec.rb
+        - name: java
+          path: test/integration/centos6/inspec/controls/java_spec.rb
+      controls:
+        - check-ruby-ssl-with-callout
+        - check-ruby-ssl-cert
+        - check-java-cacerts
+      attrs:
+        - test/integration/centos6/inspec/attributes/windows_attributes.yml
+    attributes: {
+      "java" : {
+          "install_flavor" : "windows",
+          "java_home": "C:\\Program Files (x86)\\Java\\jdk10",
+# Note: Use 8 until the java cookbook is fixed. It still installs 10
+          "jdk_version" : "8",
+          "oracle" : {
+               "accept_oracle_download_terms" : true
+          },
+          "windows": {
+            "url": "http://download.oracle.com/otn-pub/java/jdk/10.0.2+13/19aef61b38124481863b1413dce1855f/jdk-10.0.2_windows-x64_bin.exe",
+            "package_name": "Java SE Development Kit 10.0.2"
+          }
+      },
+      "doi_ssl_filtering" : {
+        "cert_locations" : [
+          "file:///Users/vagrant/AppData/Local/Temp/kitchen/data/rootCA.pem"
+        ]
+      }
+    }
+
   - name: java-openjdk
     excludes:
       - windows-2012r2
@@ -127,6 +229,16 @@ suites:
       - recipe[doi_ssl_filtering::ruby]
       - recipe[java]
       - recipe[doi_ssl_filtering::java]
+    verifier:
+      inspec_tests:
+        - name: ruby
+          path: test/integration/centos6/inspec/controls/ruby_spec.rb
+        - name: java
+          path: test/integration/centos6/inspec/controls/java_spec.rb
+      controls:
+        - check-ruby-ssl-with-callout
+        - check-ruby-ssl-cert
+        - check-java-cacerts
     attributes: {
       "doi_ssl_filtering" : {
         "cert_locations" : [

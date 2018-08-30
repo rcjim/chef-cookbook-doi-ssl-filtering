@@ -46,3 +46,14 @@ certificate store cacerts
                       REMOTEDESKTOP, TRUSTEDDEVICES, WEBHOSTING, AUTHROOT,
                       TRUSTEDPEOPLE, SMARTCARDROOT, and TRUST
 * `storepass`, String. The password used to protect the keystore. Ignored for windows
+
+## Integration Testing
+
+This cookbook uses
+[test-kitchen](https://github.com/test-kitchen/test-kitchen) for
+integration tests. The test for windows was performed on a private
+image created by using this
+[Packer Template](https://github.com/boxcutter/windows). The vagrant-winrm
+plugin (`vagrant plugin install vagrant-winrm`) may need to be
+installed to run the integration tests.
+
